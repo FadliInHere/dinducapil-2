@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\KehilanganKtpController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
@@ -28,6 +29,11 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
+    Route::resource('kehilangan_ktp', KehilanganKtpController::class);
+    Route::post('kehilangan_ktp/{id}/selesai', [KehilanganKtpController::class, 'markAsCompleted'])->name('kehilangan_ktp.markAsCompleted');
+    Route::post('kehilangan_ktp/{id}/tolak', [KehilanganKtpController::class, 'markAsRejected'])->name('kehilangan_ktp.markAsRejected');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+    ->name('logout');
 });
+
